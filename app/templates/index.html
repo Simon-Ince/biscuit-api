@@ -9,11 +9,11 @@
     <form class="col-12 text-center">
       <h1>It's a {{ data.date_time.strftime("%A") }} {{ data.time }} in {{ data.date_time.strftime("%B") }}</h1>
       {% if not data.list %}
-        <h3>No biscuits can be consumed.</h3>
+        <h3>No snacks may be consumed.</h3>
       {% else %}
-        <h3>The following biscuits can be consumed:</h3>
-        {% for biscuit in data.list %}
-          {{ biscuit["Item"] }}{% if biscuit["Other Restrictions"] %} ({{ biscuit["Other Restrictions"] }}){% endif %}{% if not loop.last %} • {% endif %}
+        <h3>The following snacks can be consumed:</h3>
+        {% for snack in data.list %}
+          {{ snack["Item"] }}{% if snack["Other Restrictions"] %} ({{ snack["Other Restrictions"] }}){% endif %}{% if not loop.last %} • {% endif %}
         {% endfor %}
       {% endif %}
     </form>

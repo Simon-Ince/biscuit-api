@@ -75,21 +75,21 @@ class Gs:
         # determine the time of day by Sophia's rules
         _time_of_day = time_of_day(date_time.hour)
 
-        # prep our list of acceptable biscuits
+        # prep our list of acceptable snacks
         acceptable = {"time": _time_of_day, "date_time": date_time, "list": []}
 
         if _time_of_day:
-            # check if each of our biscuits is acceptable or not
-            for biscuit in self.values:
-                # check it the biscuit is acceptable at this time of day
-                if biscuit[_time_of_day] == "TRUE":
-                    # check it the biscuit is acceptable this month
+            # check if each of our snacks is acceptable or not
+            for snack in self.values:
+                # check it the snack is acceptable at this time of day
+                if snack[_time_of_day] == "TRUE":
+                    # check it the snack is acceptable this month
                     if (
                         date_time.strftime("%B")
-                        in biscuit["Acceptable Months"].split(",")
-                        or biscuit["Acceptable Months"] == ""
+                        in snack["Acceptable Months"].split(",")
+                        or snack["Acceptable Months"] == ""
                     ):
-                        acceptable["list"].append(biscuit)
+                        acceptable["list"].append(snack)
 
         return acceptable
 
@@ -120,16 +120,16 @@ def api_acceptable_now():
     data = {
         "date_time": acceptable_now["date_time"].strftime("%Y-%m-%d %H:%M:%S %Z%z"),
         "time": acceptable_now["time"],
-        "biscuits": [],
+        "snacks": [],
     }
 
-    # loop through our acceptable biscuits and add them to our return data
-    for biscuit in acceptable_now["list"]:
+    # loop through our acceptable snacks and add them to our return data
+    for snack in acceptable_now["list"]:
         item = {
-            "biscuit": biscuit["Item"],
-            "other_restrictions": biscuit["Other Restrictions"],
+            "snack": snack["Item"],
+            "other_restrictions": snack["Other Restrictions"],
         }
-        data["biscuits"].append(item)
+        data["snacks"].append(item)
 
     return jsonify(data)
 
