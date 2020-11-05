@@ -1,0 +1,11 @@
+version: '3'
+services:
+  python:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "80:${PORT}"
+    volumes:
+      - ./app:/app
+      - ./creds:/creds
