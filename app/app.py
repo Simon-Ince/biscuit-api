@@ -107,5 +107,32 @@ def index():
     return render_template("index.html", data=sheet.acceptable_now())
 
 
+# index page
+@app.route("/api/v1/acceptable-now", methods=["GET"])
+def api_acceptable_now():
+    # create Google Sheet object
+    sheet = Gs()
+
+    # grab what's acceptable
+    acceptable_now = sheet.acceptable_now()
+
+    # prep our return data
+    data = {
+        "date_time": acceptable_now["date_time"].strftime("%Y-%m-%d %H:%M:%S %Z%z"),
+        "time": acceptable_now["time"],
+        "biscuits": [],
+    }
+
+    # loop through our acceptable biscuits and add them to our return data
+    for biscuit in acceptable_now["list"]:
+        item = {
+            "biscuit": biscuit["Item"],
+            "other_restrictions": biscuit["Other Restrictions"],
+        }
+        data["biscuits"].append(item)
+
+    return jsonify(data)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 80)))
