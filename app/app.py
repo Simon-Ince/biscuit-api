@@ -46,10 +46,8 @@ def time_of_day(hour):
         else "Afternoon"
         if 13 <= hour <= 18
         else "Evening"
-        if 19 <= hour <= 22
+        if 19 <= hour <= 21
         else "Night"
-        if 19 <= hour <= 22
-        else None
     )
 
 
@@ -80,16 +78,18 @@ class Gs:
         # prep our list of acceptable biscuits
         acceptable = {"time": _time_of_day, "date_time": date_time, "list": []}
 
-        # check if each of our biscuits is acceptable or not
-        for biscuit in self.values:
-            # check it the biscuit is acceptable at this time of day
-            if biscuit[_time_of_day] == "TRUE":
-                # check it the biscuit is acceptable this month
-                if (
-                    date_time.strftime("%B") in biscuit["Acceptable Months"].split(",")
-                    or biscuit["Acceptable Months"] == ""
-                ):
-                    acceptable["list"].append(biscuit)
+        if _time_of_day:
+            # check if each of our biscuits is acceptable or not
+            for biscuit in self.values:
+                # check it the biscuit is acceptable at this time of day
+                if biscuit[_time_of_day] == "TRUE":
+                    # check it the biscuit is acceptable this month
+                    if (
+                        date_time.strftime("%B")
+                        in biscuit["Acceptable Months"].split(",")
+                        or biscuit["Acceptable Months"] == ""
+                    ):
+                        acceptable["list"].append(biscuit)
 
         return acceptable
 
